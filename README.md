@@ -11,6 +11,9 @@ The SoftMax model code can be found at [mnist_model.py](../model/mnist_model.py)
 #### Input Layer
 The input to the model is the MNIST data set, which contains 28x28 pixel images of handwritten numbers.
 Each image also has a 1 hot vector that defines the class associated with it. 
+
+![alt text](https://www.tensorflow.org/images/mnist_0-9.png)
+
 ```python
 #--Each entry of the tensor is a pixel intensity between 0 and 1
 #--x = [number of images, width*height of image]
