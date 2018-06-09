@@ -53,8 +53,8 @@ This is because the tensorflow methods for creating convolutional and pooling la
 x_image = tf.reshape(x, [-1, 28, 28, 1])
 ```
 #### Convolution Layer 1
-Convolution layers are used to extract features from the input image. It works by convolving a filter around the input image and taking the dot product between them. This produces a feature map.
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png
+Convolution layers are used to extract features from the input image. They work by convolving a filter around the input image and taking the dot product between them. This produces a feature map.
+![alt text](https://ujwlkarn.files.wordpress.com/2016/07/convolution_schematic.gif?w=268&h=196&zoom=2)
 
 In this first layer, we are mapping the input image to 32 different 5x5 feature maps.
 ```python
