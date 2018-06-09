@@ -39,7 +39,7 @@ b = tf.Variable(tf.zeros([10]), name='modelBias')
 The output of the model is given by a layer of SoftMax that acts as an activation function that normalizes
 the evidence into a probability distribution that an image is in some class. Evidence is given by the
 function:
-*'evidence=sum(x*W + b)'*
+**evidence=sum(x*W + b)**
 
 ```python
 y = tf.nn.softmax(tf.matmul(x, W) + b, name='modelOutput')
