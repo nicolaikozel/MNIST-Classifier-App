@@ -70,8 +70,7 @@ h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
 ```
 #### Pooling Layer 1
 Pooling layers are used to downsample each feature map, while still retaining the most important information. This is mostly done in order to reduce processing time. Pooling layers work by taking the largest value within some defined sub-region of the input data. In this case, we are using a sub-region size of 2x2. 
-![alt-text](https://ujwlkarn.files.wordpress.com/2016/08/screen-shot-2016-08-10-at-3-38-39-am.png?w=768)
-<img src="https://ujwlkarn.files.wordpress.com/2016/08/screen-shot-2016-08-10-at-3-38-39-am.png?w=768" alt="alt text" width="25%" height="25%">
+<img src="https://ujwlkarn.files.wordpress.com/2016/08/screen-shot-2016-08-10-at-3-38-39-am.png?w=768" alt="alt text" width="35%" height="35%">
 
 ```python
 h_pool1 = max_pool_2x2(h_conv1)
