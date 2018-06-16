@@ -59,7 +59,8 @@ x_image = tf.reshape(x, [-1, 28, 28, 1])
 Convolution layers are used to extract features from the input image. They work by convolving a filter around the input image and taking the dot product between them. This produces a feature map.
 ![alt text](https://ujwlkarn.files.wordpress.com/2016/07/convolution_schematic.gif?w=268&h=196&zoom=2)
 
-For this layer, we also apply ReLU as an activation function. ({\displaystyle f(x)=x^{+}=\max(0,x)}).
+For this layer, we also apply ReLU as the activation function. 
+**f(x)=max(0,x)**
 
 In this first layer, we are mapping the input image to 32 different 5x5 feature maps.
 ```python
