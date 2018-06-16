@@ -69,17 +69,25 @@ b_conv1 = bias_variable([32])
 h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
 ```
 #### Pooling Layer 1
+Pooling layers are used to downsample each feature map, while still retaining the most important information. This is mostly done in order to reduce processing time. Pooling layers work by taking the largest value within some defined sub-region of the input data. In this case, we are using a sub-region size of 2x2. 
+![alt-text](https://ujwlkarn.files.wordpress.com/2016/08/screen-shot-2016-08-10-at-3-38-39-am.png?w=768)
+
 ```python
 h_pool1 = max_pool_2x2(h_conv1)
 ```
 #### Convolution Layer 2
+In this second convolutional layer, we are mapping the output of pooling layer 1 to 64 different 5x5 feature maps.
 ```python
 W_conv2 = weight_variable([5, 5, 32, 64])
 b_conv2 = bias_variable([64])
 h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
 ```
 #### Pooling Layer 2
+This second pooling layer is used to downsample the output of convolutional layer 2. The shape of h_pool2 at this point should be 
+[number of images, 7, 7, 64], since we created 64 feature maps and downsampled by 2 twice. 
 ```python
 h_pool2 = max_pool_2x2(h_conv2)
 ```
+
+
 ## Training the Model
