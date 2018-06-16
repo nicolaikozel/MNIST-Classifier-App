@@ -55,7 +55,7 @@ This is because the tensorflow methods for creating convolutional and pooling la
 #--x_image = [batch_size, image_height, image_width, channels]
 x_image = tf.reshape(x, [-1, 28, 28, 1])
 ```
-#### Convolution Layer 1
+#### Convolutional Layer 1
 Convolution layers are used to extract features from the input image. They work by convolving a filter around the input image and taking the dot product between them. This produces a feature map.
 ![alt text](https://ujwlkarn.files.wordpress.com/2016/07/convolution_schematic.gif?w=268&h=196&zoom=2)
 
@@ -71,11 +71,12 @@ h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
 #### Pooling Layer 1
 Pooling layers are used to downsample each feature map, while still retaining the most important information. This is mostly done in order to reduce processing time. Pooling layers work by taking the largest value within some defined sub-region of the input data. In this case, we are using a sub-region size of 2x2. 
 ![alt-text](https://ujwlkarn.files.wordpress.com/2016/08/screen-shot-2016-08-10-at-3-38-39-am.png?w=768)
+<img src="https://ujwlkarn.files.wordpress.com/2016/08/screen-shot-2016-08-10-at-3-38-39-am.png?w=768" alt="alt text" width="25%" height="25%">
 
 ```python
 h_pool1 = max_pool_2x2(h_conv1)
 ```
-#### Convolution Layer 2
+#### Convolutional Layer 2
 In this second convolutional layer, we are mapping the output of pooling layer 1 to 64 different 5x5 feature maps.
 ```python
 W_conv2 = weight_variable([5, 5, 32, 64])
@@ -88,6 +89,5 @@ This second pooling layer is used to downsample the output of convolutional laye
 ```python
 h_pool2 = max_pool_2x2(h_conv2)
 ```
-
 
 ## Training the Model
