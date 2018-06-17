@@ -7,7 +7,7 @@ frozen and imported inside Android Studio. The app supports two different classi
 and a Convolutional Neural Network. The SoftMax model has an final accurary of ~92% while the Convolutional Neural Network increases
 the accuracy to ~98%.
 ### SoftMax 
-The SoftMax model code can be found at [mnist_model.py](../model/mnist_model.py).
+The SoftMax model code can be found at [mnist_model.py](../mnist_model.py).
 #### Input Layer
 The input to the model is the MNIST data set, which contains 28x28 pixel images of handwritten numbers.
 Each image also has a 1 hot vector that defines the class associated with it. 
@@ -39,7 +39,7 @@ function:
 y = tf.nn.softmax(tf.matmul(x, W) + b, name='modelOutput')
 ```
 ### Convolutional Neural Network
-The Convolutional Neural Network model code can be found at [mnist_model_cnn.py](../model/mnist_model_cnn.py).
+The Convolutional Neural Network model code can be found at [mnist_model_cnn.py](../mnist_model_cnn.py).
 #### Input Layer
 The input of the model is the same as the SoftMax model, except we must reshape the input to use within a convolutional neural net.
 This is because the tensorflow methods for creating convolutional and pooling layers expect input tensors of shape 
