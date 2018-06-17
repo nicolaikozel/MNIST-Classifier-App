@@ -15,25 +15,19 @@ Each image also has a 1 hot vector that defines the class associated with it.
 ![alt text](https://www.tensorflow.org/images/mnist_0-9.png)
 
 ```python
-#--Each entry of the tensor is a pixel intensity between 0 and 1
-#--x = [number of images, width*height of image]
 x = tf.placeholder(tf.float32, shape=[None, 784], name='modelInput')
-#--This tensor holds the actual distribution for the labels of each image.
-#--y_ = [number of images, number of classes]
 y_ = tf.placeholder(tf.float32, [None, 10],"inputLabels")
 ```
 #### Weights
 The weights of the model define how pixel intensity indicates a certain class.  For a pixel of high 
 intensity, the weight is positive if it is evidence in favor of the image being in some class and negative if it is not. 
 ```python
-#--W = [width*height of image, number of classes] 
 W = tf.Variable(tf.zeros([784,10]), name='modelWeights')
 ```
 #### Bias
 The bias represents extra evidence that some things are more likely independent of the input. Mathematically, bias
 allows the activation function to shift to the left or right. A higher bias allows for quicker training but the model is less flexible.
 ```python
-#--b = [number of classes]
 b = tf.Variable(tf.zeros([10]), name='modelBias')
 ```
 #### Output Layer
@@ -42,7 +36,6 @@ the evidence into a probability distribution that an image is in some class. Evi
 function:
 **evidence=x*W + b**
 ```python
-#--y = [number of images, number of classes]
 y = tf.nn.softmax(tf.matmul(x, W) + b, name='modelOutput')
 ```
 ### Convolutional Neural Network
@@ -52,7 +45,6 @@ The input of the model is the same as the SoftMax model, except we must reshape 
 This is because the tensorflow methods for creating convolutional and pooling layers expect input tensors of shape 
 [batch_size, image_height, image_width, channels]. 
 ```python
-#--x_image = [batch_size, image_height, image_width, channels]
 x_image = tf.reshape(x, [-1, 28, 28, 1])
 ```
 #### Convolutional Layer 1
@@ -106,45 +98,30 @@ y = tf.nn.softmax(tf.matmul(h_fc1, W_fc2) + b_fc2, name='modelOutput')
 ## Training the Model/Freezing the Graph 
 In order to train the model, we feed in the training data in batches and periodically feed in some of the test images in order to verify the accuracy of the predictions. Freezing the graph is handled by the tool provided in the tensorflow API.
 ```python
-#Train the model
-#---------------
-#Run the training step N times
 for i in range(TRAIN_STEPS+1):
   print('Training Step:'+str(i))
-	#Run training step for batch of K images
   batch_xs, batch_ys = mnist.train.next_batch(BATCH_SIZE)
   sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
   if i%100==0:
-      #Print accuracy and loss
-      print('  Accuracy = '+ str(sess.run(accuracy, {x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0})*100)+"%" +
-  	        '	 Loss = ' + str(sess.run(cross_entropy, {x: batch_xs, y_: batch_ys, keep_prob: 1.0}))
+      print('  Accuracy = '+ str(sess.run(accuracy, {x: mnist.test.images, y_: mnist.test.labels})*100)+"%" +
+  	        '	 Loss = ' + str(sess.run(cross_entropy, {x: batch_xs, y_: batch_ys}))
   	       )
-  #Save learn weights of model to checkpoint file 
   if i%1000==0:
   	out = saver.save(sess, SAVED_MODEL_PATH+MODEL_NAME+'.ckpt', global_step=i)
 
-#Print final accuracy of model 
-print('Final Accuracy: ' + str(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0})))
+print('Final Accuracy: ' + str(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels})))
 
-#Freeze the graph
-#----------------
-#Input graph is our saved model defined above
 input_graph = SAVED_MODEL_PATH+MODEL_NAME+'.pb'
-#Use default graph saver
 input_saver = ""
-#Input file is a binary file
 input_binary = True
-#Checkpoint file to merge with graph definition
 input_checkpoint = SAVED_MODEL_PATH+MODEL_NAME+'.ckpt-'+str(TRAIN_STEPS)
-#Output nodes in model
 output_node_names = 'modelOutput'
 restore_op_name = 'save/restore_all'
 filename_tensor_name = 'save/Const:0'
-#Output path
 output_graph = SAVED_MODEL_PATH+'frozen_'+MODEL_NAME+'.pb'
 clear_devices = True
 initializer_nodes = ""
-#Freeze
+
 freeze_graph.freeze_graph(
   input_graph,
   input_saver,
