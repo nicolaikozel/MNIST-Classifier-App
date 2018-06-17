@@ -1,6 +1,12 @@
 # MNIST-Classifier-App
 Android app to classify hand drawn numbers using Tensorflow machine learning model. 
 
+*References:*
+[Tensorflow MNIST Tutorial](https://www.tensorflow.org/tutorials/layers)
+[An Intuitive Explanation of CNN](https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/)
+[DeepLearningOnAndroid](https://github.com/imohitch/DeepLearningOnAndroid)
+[Running Tensorflow models on Anroid](https://www.linkedin.com/pulse/running-tensorflow-models-android-explaining-basics-behind-chaudhary)
+
 ## Creating the Model
 Before creating the App, we must first create a model in tensorflow. The model is created with Python and is then
 frozen and imported inside Android Studio. The app supports two different classification models; a single layer SoftMax model
