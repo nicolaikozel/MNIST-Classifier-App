@@ -89,5 +89,72 @@ This second pooling layer is used to downsample the output of convolutional laye
 ```python
 h_pool2 = max_pool_2x2(h_conv2)
 ```
+#### Fully Connected/Output Layer 
+The output of the model is again given by a layer of SoftMax; however, the data is first fed into a fully connected layer which re-shapes it to the output and classifies the input image based on the features created. As the name implies, every node of the previous layer is connected to every node of the next.   
+```python
+W_fc1 = weight_variable([7 * 7 * 64, 1024])
+b_fc1 = bias_variable([1024])
 
-## Training the Model
+h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
+h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
+
+W_fc2 = weight_variable([1024, 10])
+b_fc2 = bias_variable([10])
+
+y = tf.nn.softmax(tf.matmul(h_fc1, W_fc2) + b_fc2, name='modelOutput')
+```
+## Training the Model/Freezing the Graph 
+In order to train the model, we feed in the training data in batches and periodically feed in some of the test images in order to verify the accuracy of the predictions. Freezing the graph is handled by the tool provided in the tensorflow API.
+```python
+#Train the model
+#---------------
+#Run the training step N times
+for i in range(TRAIN_STEPS+1):
+  print('Training Step:'+str(i))
+	#Run training step for batch of K images
+  batch_xs, batch_ys = mnist.train.next_batch(BATCH_SIZE)
+  sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+  if i%100==0:
+      #Print accuracy and loss
+      print('  Accuracy = '+ str(sess.run(accuracy, {x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0})*100)+"%" +
+  	        '	 Loss = ' + str(sess.run(cross_entropy, {x: batch_xs, y_: batch_ys, keep_prob: 1.0}))
+  	       )
+  #Save learn weights of model to checkpoint file 
+  if i%1000==0:
+  	out = saver.save(sess, SAVED_MODEL_PATH+MODEL_NAME+'.ckpt', global_step=i)
+
+#Print final accuracy of model 
+print('Final Accuracy: ' + str(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0})))
+
+#Freeze the graph
+#----------------
+#Input graph is our saved model defined above
+input_graph = SAVED_MODEL_PATH+MODEL_NAME+'.pb'
+#Use default graph saver
+input_saver = ""
+#Input file is a binary file
+input_binary = True
+#Checkpoint file to merge with graph definition
+input_checkpoint = SAVED_MODEL_PATH+MODEL_NAME+'.ckpt-'+str(TRAIN_STEPS)
+#Output nodes in model
+output_node_names = 'modelOutput'
+restore_op_name = 'save/restore_all'
+filename_tensor_name = 'save/Const:0'
+#Output path
+output_graph = SAVED_MODEL_PATH+'frozen_'+MODEL_NAME+'.pb'
+clear_devices = True
+initializer_nodes = ""
+#Freeze
+freeze_graph.freeze_graph(
+  input_graph,
+  input_saver,
+  input_binary,
+  input_checkpoint,
+  output_node_names,
+  restore_op_name,
+  filename_tensor_name,
+  output_graph,
+  clear_devices,
+  initializer_nodes,
+)
+```
